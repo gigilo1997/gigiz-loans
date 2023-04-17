@@ -6,9 +6,9 @@ namespace Host.Controllers;
 
 public class AuthController : BaseApiController
 {
-    private readonly IJwtService _jwtService;
+    private readonly IAuthService _jwtService;
 
-    public AuthController(IJwtService jwtService)
+    public AuthController(IAuthService jwtService)
     {
         _jwtService = jwtService;
     }
@@ -16,12 +16,12 @@ public class AuthController : BaseApiController
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(GenerateToken))]
-    public async Task<JwtContracts.TokenResponse> GenerateToken([FromBody] JwtContracts.GenerateTokenRequest request) =>
+    public async Task<AuthContracts.TokenResponse> GenerateToken([FromBody] AuthContracts.GenerateTokenRequest request) =>
         await _jwtService.GenerateTokenAsync(request);
 
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(RefreshToken))]
-    public async Task<JwtContracts.TokenResponse> RefreshToken([FromBody] JwtContracts.RefreshTokenRequest request) =>
+    public async Task<AuthContracts.TokenResponse> RefreshToken([FromBody] AuthContracts.RefreshTokenRequest request) =>
         await _jwtService.RefreshTokenAsync(request);
 }

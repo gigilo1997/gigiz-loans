@@ -1,5 +1,6 @@
 ﻿using Domain.Auth;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.Auth;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,6 +68,10 @@ public static class DependencyInjection
 
         services.AddScoped<ICurrentUser, CurrentUserService>();
         services.AddScoped(sp => (ICurrentUserInitializer)sp.GetRequiredService<ICurrentUser>());
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUserManager, UserManager>();
 
         services.AddScoped<CurrentUserMiddleware>();
 

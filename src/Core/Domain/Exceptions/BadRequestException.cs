@@ -1,16 +1,13 @@
-﻿using System.Net;
+﻿namespace Domain.Exceptions;
 
-namespace Domain.Exceptions;
-
-public class BadRequestException : CustomException
+public class BadRequestException : Exception
 {
-    public BadRequestException(string message = "Bad Request")
-        : base(HttpStatusCode.BadRequest, message)
+    public BadRequestError[] Errors { get; private set; }
+
+    public BadRequestException(params BadRequestError[] errors)
     {
+        Errors = errors ?? Array.Empty<BadRequestError>();
     }
 
-    public BadRequestException(params string[] messages)
-        : base(HttpStatusCode.BadRequest, messages)
-    {
-    }
+    public record BadRequestError(string PropertyName, string ErrorMessage);
 }

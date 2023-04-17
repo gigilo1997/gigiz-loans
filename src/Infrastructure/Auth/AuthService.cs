@@ -12,12 +12,12 @@ using System.Text;
 
 namespace Infrastructure.Auth;
 
-internal class JwtService : IJwtService
+internal class AuthService : IAuthService
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly JwtSettings _jwtSettings;
 
-    public JwtService(
+    public AuthService(
         UserManager<AppUser> userManager,
         IOptions<JwtSettings> jwtSettings)
     {
@@ -25,7 +25,7 @@ internal class JwtService : IJwtService
         _jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings));
     }
 
-    public async Task<ValueResult<JwtContracts.TokenResponse>> GenerateTokenAsync(JwtContracts.GenerateTokenRequest request)
+    public async Task<ValueResult<AuthContracts.TokenResponse>> GenerateTokenAsync(AuthContracts.GenerateTokenRequest request)
     {
         var user = await _userManager.FindByNameAsync(request.UserName);
 
@@ -38,7 +38,7 @@ internal class JwtService : IJwtService
         return await GenerateTokenFromUser(user);
     }
 
-    public async Task<ValueResult<JwtContracts.TokenResponse>> RefreshTokenAsync(JwtContracts.RefreshTokenRequest request)
+    public async Task<ValueResult<AuthContracts.TokenResponse>> RefreshTokenAsync(AuthContracts.RefreshTokenRequest request)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {
@@ -79,7 +79,7 @@ internal class JwtService : IJwtService
         return await GenerateTokenFromUser(user);
     }
 
-    private async Task<JwtContracts.TokenResponse> GenerateTokenFromUser(AppUser user)
+    private async Task<AuthContracts.TokenResponse> GenerateTokenFromUser(AppUser user)
     {
         DateTime now = DateTime.UtcNow;
         DateTime tokenExpiresAt = now.AddMinutes(_jwtSettings.TokenExpirationInMinutes);
@@ -116,7 +116,7 @@ internal class JwtService : IJwtService
         user.UpdateRefreshToken(refreshToken, refreshTokenExpiresAt);
         await _userManager.UpdateAsync(user);
 
-        return new JwtContracts
+        return new AuthContracts
             .TokenResponse(tokenString, refreshToken, tokenExpiresAt, refreshTokenExpiresAt);
     }
 }

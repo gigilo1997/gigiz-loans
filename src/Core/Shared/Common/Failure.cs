@@ -2,11 +2,11 @@
 
 public class Failure
 {
-    public string Message { get; init; }
+    public string[] Messages { get; init; }
 
-    private Failure(string message) =>
-        Message = message;
+    private Failure(string[] messages) =>
+        Messages = messages ?? Array.Empty<string>();
 
-    public static Failure Create(string message) =>
-        new Failure(message);
+    public static Failure Create(params string[] messages) =>
+        new Failure(messages);
 }
