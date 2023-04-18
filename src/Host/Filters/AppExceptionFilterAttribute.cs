@@ -32,7 +32,7 @@ public class AppExceptionFilterAttribute : ExceptionFilterAttribute
     {
         var exception = context.Exception as AppValidationException;
 
-        var details = new ValidationProblemDetails(exception.Errors);
+        var details = new ValidationProblemDetails(exception!.Errors);
 
         context.Result = new BadRequestObjectResult(details);
     }

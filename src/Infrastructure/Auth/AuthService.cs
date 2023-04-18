@@ -25,20 +25,20 @@ internal class AuthService : IAuthService
         _jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings));
     }
 
-    public async Task<ValueResult<AuthContracts.TokenResponse>> GenerateTokenAsync(AuthContracts.GenerateTokenRequest request)
+    public async Task<ValueResult<TokenModel>> GenerateTokenAsync(string userName, string password)
     {
-        var user = await _userManager.FindByNameAsync(request.UserName);
+        var user = await _userManager.FindByNameAsync(userName);
 
         if (user is null)
             return Failure.Create("Incorrect Email or Password");
 
-        if (!await _userManager.CheckPasswordAsync(user, request.Password))
+        if (!await _userManager.CheckPasswordAsync(user, password))
             return Failure.Create("Incorrect Email or Password");
 
         return await GenerateTokenFromUser(user);
     }
 
-    public async Task<ValueResult<AuthContracts.TokenResponse>> RefreshTokenAsync(AuthContracts.RefreshTokenRequest request)
+    public async Task<ValueResult<TokenModel>> RefreshTokenAsync(string token, string refreshToken)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {
@@ -53,7 +53,7 @@ internal class AuthService : IAuthService
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var principal = tokenHandler
-            .ValidateToken(request.Token, tokenValidationParameters, out var securityToken);
+            .ValidateToken(token, tokenValidationParameters, out var securityToken);
 
         if (securityToken is not JwtSecurityToken jwtSecurityToken ||
             !jwtSecurityToken.Header.Alg.Equals(
@@ -73,13 +73,13 @@ internal class AuthService : IAuthService
         if (user is null)
             return Failure.Create("Invalid Token");
 
-        if (user.RefreshToken != request.RefreshToken)
+        if (user.RefreshToken != refreshToken)
             return Failure.Create("Invalid Refresh token");
 
         return await GenerateTokenFromUser(user);
     }
 
-    private async Task<AuthContracts.TokenResponse> GenerateTokenFromUser(AppUser user)
+    private async Task<TokenModel> GenerateTokenFromUser(AppUser user)
     {
         DateTime now = DateTime.UtcNow;
         DateTime tokenExpiresAt = now.AddMinutes(_jwtSettings.TokenExpirationInMinutes);
@@ -116,7 +116,6 @@ internal class AuthService : IAuthService
         user.UpdateRefreshToken(refreshToken, refreshTokenExpiresAt);
         await _userManager.UpdateAsync(user);
 
-        return new AuthContracts
-            .TokenResponse(tokenString, refreshToken, tokenExpiresAt, refreshTokenExpiresAt);
+        return new TokenModel(tokenString, refreshToken, tokenExpiresAt, refreshTokenExpiresAt);
     }
 }

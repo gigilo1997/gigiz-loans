@@ -23,13 +23,13 @@ public class ValueResult<T>
     public static ValueResult<T> Failure(params string[] messages)
         => new ValueResult<T>(default, false, messages);
 
-    public static implicit operator ValueResult<T>(T value) => value;
+    public static implicit operator ValueResult<T>(T value) => Success(value);
 
     public static implicit operator ValueResult<T>(Failure failure) =>
         Failure(failure.Messages);
 
     public static implicit operator T(ValueResult<T> value) =>
         value.Value is not null
-            ? Success(value.Value)
+            ? value.Value
             : throw new ArgumentNullException(nameof(value.Value));
 }

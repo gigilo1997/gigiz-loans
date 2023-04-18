@@ -34,7 +34,6 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
             request.PersonalNumber,
             request.DateOfBirth);
 
-        // TODO: Check result
         return await _userManager.CreateWithPasswordAsync(user, request.Password);
     }
 }

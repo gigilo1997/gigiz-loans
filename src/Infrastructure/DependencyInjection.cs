@@ -23,6 +23,9 @@ public static class DependencyInjection
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services
+            .AddScoped<DbInitializer>();
+
+        services
             .AddIdentityCore<AppUser>(options =>
             {
                 options.Password.RequiredLength = 6;
@@ -30,7 +33,6 @@ public static class DependencyInjection
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = false;
-                options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<AppDbContext>();
 
@@ -68,6 +70,7 @@ public static class DependencyInjection
 
         services.AddScoped<ICurrentUser, CurrentUserService>();
         services.AddScoped(sp => (ICurrentUserInitializer)sp.GetRequiredService<ICurrentUser>());
+        services.AddScoped<IAuthService, AuthService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -84,5 +87,13 @@ public static class DependencyInjection
         app.UseAuthorization();
         app.UseMiddleware<CurrentUserMiddleware>();
         return app;
+    }
+
+    public static async Task InitializeDatabaseAsync(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+
+        await scope.ServiceProvider.GetRequiredService<DbInitializer>()
+            .InitializeAsync();
     }
 }

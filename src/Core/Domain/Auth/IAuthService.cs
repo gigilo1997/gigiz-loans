@@ -4,6 +4,6 @@ namespace Domain.Auth;
 
 public interface IAuthService
 {
-    Task<ValueResult<AuthContracts.TokenResponse>> GenerateTokenAsync(AuthContracts.GenerateTokenRequest request);
-    Task<ValueResult<AuthContracts.TokenResponse>> RefreshTokenAsync(AuthContracts.RefreshTokenRequest request);
+    Task<ValueResult<TokenModel>> GenerateTokenAsync(string userName, string password);
+    Task<ValueResult<TokenModel>> RefreshTokenAsync(string token, string refreshToken);
 }

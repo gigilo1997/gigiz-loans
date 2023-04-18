@@ -1,4 +1,6 @@
-﻿using Domain.Auth;
+﻿using Application.Auth.Commands;
+using Application.Auth.Dtos;
+using Domain.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +18,12 @@ public class AuthController : BaseApiController
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(GenerateToken))]
-    public async Task<AuthContracts.TokenResponse> GenerateToken([FromBody] AuthContracts.GenerateTokenRequest request) =>
-        await _jwtService.GenerateTokenAsync(request);
+    public async Task<TokenDto> GenerateToken([FromBody] GenerateTokenCommand request) =>
+        await Sender.Send(request);
 
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(RefreshToken))]
-    public async Task<AuthContracts.TokenResponse> RefreshToken([FromBody] AuthContracts.RefreshTokenRequest request) =>
-        await _jwtService.RefreshTokenAsync(request);
+    public async Task<TokenDto> RefreshToken([FromBody] RefreshTokenCommand request) =>
+        await Sender.Send(request);
 }

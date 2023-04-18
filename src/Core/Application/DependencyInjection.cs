@@ -13,16 +13,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
-        // TODO: Make validators work
-        //services.AddFluentValidation();
-        //services.AddFluentValidationAutoValidation()
-        //    .AddFluentValidationClientsideAdapters();
-
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
-
-        //services.AddValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
-
-        //services.AddTransient<IValidator<RegisterUserCommand>, RegisterUserCommandValidator>();
 
         services.AddMediatR(cfg =>
         {
