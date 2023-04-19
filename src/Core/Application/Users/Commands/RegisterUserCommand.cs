@@ -4,7 +4,7 @@ using Domain.Interfaces;
 using MediatR;
 using Shared.Common;
 
-namespace Application.User.Commands;
+namespace Application.Users.Commands;
 
 public record RegisterUserCommand(
     string UserName,

@@ -1,4 +1,4 @@
-﻿using Application.User.Commands;
+﻿using Application.Users.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

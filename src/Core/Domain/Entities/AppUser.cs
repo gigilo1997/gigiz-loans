@@ -12,6 +12,8 @@ public class AppUser : IdentityUser<Guid>
     public string? RefreshToken { get; private set; }
     public DateTime? RefreshTokenExpiresAt { get; private set; }
 
+    public virtual ICollection<UserLoan> Loans { get; private set; } = new List<UserLoan>();
+
     private AppUser(
         string userName,
         string firstName,

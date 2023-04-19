@@ -1,8 +1,5 @@
 ﻿using Application.Common.Behaviors;
-using Application.User.Commands;
-using Application.User.Validators;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

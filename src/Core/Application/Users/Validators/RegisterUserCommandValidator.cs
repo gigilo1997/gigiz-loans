@@ -1,8 +1,8 @@
-﻿using Application.User.Commands;
+﻿using Application.Users.Commands;
 using FluentValidation;
 using System.Text.RegularExpressions;
 
-namespace Application.User.Validators;
+namespace Application.Users.Validators;
 
 internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
