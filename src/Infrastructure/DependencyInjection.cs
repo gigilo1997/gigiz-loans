@@ -6,6 +6,7 @@ using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,7 @@ public static class DependencyInjection
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = false;
             })
+            .AddRoles<AppRole>()
             .AddEntityFrameworkStores<AppDbContext>();
 
         var jwtSection = configuration.GetSection(JwtSettings.SectionName);
@@ -71,10 +73,11 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUserService>();
         services.AddScoped(sp => (ICurrentUserInitializer)sp.GetRequiredService<ICurrentUser>());
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserManager, UserManager>();
+        services.AddScoped<IRoleManager, RoleManager>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUserManager, UserManager>();
 
         services.AddScoped<CurrentUserMiddleware>();
 
@@ -89,11 +92,15 @@ public static class DependencyInjection
         return app;
     }
 
-    public static async Task InitializeDatabaseAsync(this IServiceProvider services)
+    public static async Task InitializeDatabaseAsync(this IServiceProvider services, bool seed = false)
     {
         using var scope = services.CreateScope();
 
-        await scope.ServiceProvider.GetRequiredService<DbInitializer>()
-            .InitializeAsync();
+        var initializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+
+        await initializer.InitializeAsync();
+
+        if (seed)
+            await initializer.SeedAsync();
     }
 }

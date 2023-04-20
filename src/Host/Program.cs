@@ -23,7 +23,7 @@ builder.Host.UseSerilog((context, configuration) =>
 
 var app = builder.Build();
 
-await app.Services.InitializeDatabaseAsync();
+await app.Services.InitializeDatabaseAsync(true);
 
 if (app.Environment.IsDevelopment())
 {

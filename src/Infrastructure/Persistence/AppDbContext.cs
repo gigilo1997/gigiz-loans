@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-internal class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
+internal class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
 {
     public DbSet<UserLoan> Loans { get; set; }
 
