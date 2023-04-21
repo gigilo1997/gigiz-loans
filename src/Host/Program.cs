@@ -8,13 +8,18 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 services.AddControllers(options =>
-    options.Filters.Add<AppExceptionFilterAttribute>());
+{
+    options.Filters.Add<AppExceptionFilterAttribute>();
+    //options.Filters.Add<AppResultFilterAttribute>();
+});
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 services.AddInfrastructure(configuration);
 services.AddApplication(configuration);
+
+builder.Logging.ClearProviders();
 
 builder.Host.UseSerilog((context, configuration) =>
 {

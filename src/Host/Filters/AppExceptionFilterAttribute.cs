@@ -14,6 +14,10 @@ public class AppExceptionFilterAttribute : ExceptionFilterAttribute
         {
             HandleValidationException(context);
         }
+        else if (type == typeof(AppBadRequestException))
+        {
+            HandleBadRequestException(context);
+        }
         else if (!context.ModelState.IsValid)
         {
             HandleInvalidModelStateException(context);
@@ -28,11 +32,24 @@ public class AppExceptionFilterAttribute : ExceptionFilterAttribute
         base.OnException(context);
     }
 
-    private void HandleValidationException (ExceptionContext context)
+    private void HandleValidationException(ExceptionContext context)
     {
         var exception = context.Exception as AppValidationException;
 
         var details = new ValidationProblemDetails(exception!.Errors);
+
+        context.Result = new BadRequestObjectResult(details);
+    }
+
+    private void HandleBadRequestException(ExceptionContext context)
+    {
+        var exception = context.Exception as AppBadRequestException;
+
+        var details = new ValidationProblemDetails(exception!.Errors)
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Title = "There was an issue with your request",
+        };
 
         context.Result = new BadRequestObjectResult(details);
     }

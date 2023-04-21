@@ -1,6 +1,7 @@
 ﻿using Domain.Exceptions;
 using FluentValidation;
 using MediatR;
+using Shared.Common;
 
 namespace Application.Common.Behaviors;
 
@@ -26,6 +27,12 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             if (failures.Count != 0)
                 throw new AppValidationException(failures.Select(e => new KeyValuePair<string, string>(e.PropertyName, e.ErrorMessage)).ToArray());
         }
-        return await next();
+
+        var response = await next();
+
+        if (response is IResult result && !result.IsSuccess)
+            throw new AppBadRequestException(result.ErrorMessages);
+
+        return response;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Shared.Common;
 
-public class VoidResult
+public class VoidResult : IResult
 {
     private readonly bool _success;
     private readonly string[] _messages;

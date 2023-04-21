@@ -1,6 +1,6 @@
 ﻿namespace Shared.Common;
 
-public class ValueResult<T>
+public class ValueResult<T> : IResult
 {
     private readonly bool _success;
     private readonly T? _value;

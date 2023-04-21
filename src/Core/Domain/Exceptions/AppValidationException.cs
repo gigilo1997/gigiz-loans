@@ -1,4 +1,6 @@
-﻿namespace Domain.Exceptions;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Domain.Exceptions;
 
 public class AppValidationException : Exception
 {
