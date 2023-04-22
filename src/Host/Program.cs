@@ -10,7 +10,6 @@ var configuration = builder.Configuration;
 services.AddControllers(options =>
 {
     options.Filters.Add<AppExceptionFilterAttribute>();
-    //options.Filters.Add<AppResultFilterAttribute>();
 });
 
 services.AddEndpointsApiExplorer();
@@ -42,5 +41,7 @@ app.UseInfrastructure();
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
 app.Run();

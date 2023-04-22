@@ -73,7 +73,7 @@ internal class DbInitializer
 
             if (!creationResult.IsSuccess)
             {
-                _logger.LogError("Failed to seed admin data", Failure.Create(creationResult.ErrorMessages));
+                _logger.LogError("Failed to seed admin data: {@Error}", Failure.Create(creationResult.ErrorMessages));
                 return;
             }
         }
@@ -83,7 +83,7 @@ internal class DbInitializer
             var resetResult = await _userManager.ResetPasswordAsync(admin, password);
             if (!resetResult.IsSuccess)
             {
-                _logger.LogError("Failed to reset admin password", Failure.Create(resetResult.ErrorMessages));
+                _logger.LogError("Failed to reset admin password: {@Error}", Failure.Create(resetResult.ErrorMessages));
                 return;
             }
         }
@@ -96,7 +96,7 @@ internal class DbInitializer
             var createResult = await _roleManager.CreateAsync(adminRole);
             if (!createResult.IsSuccess)
             {
-                _logger.LogError("Failed to create admin role", Failure.Create(createResult.ErrorMessages));
+                _logger.LogError("Failed to create admin role: {@Error}", Failure.Create(createResult.ErrorMessages));
                 return;
             }
         }
@@ -104,6 +104,6 @@ internal class DbInitializer
         var addToRoleResult = await _userManager.AddToRoleAsync(admin, adminRole!.Name!);
 
         if (!addToRoleResult.IsSuccess)
-            _logger.LogError("Failed to add admin user to role", Failure.Create(addToRoleResult.ErrorMessages));
+            _logger.LogError("Failed to add admin user to role: {@Error}", Failure.Create(addToRoleResult.ErrorMessages));
     }
 }

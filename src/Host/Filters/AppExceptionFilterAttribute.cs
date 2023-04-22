@@ -6,6 +6,13 @@ namespace Host.Filters;
 
 public class AppExceptionFilterAttribute : ExceptionFilterAttribute
 {
+    private readonly ILogger<AppExceptionFilterAttribute> _logger;
+
+    public AppExceptionFilterAttribute(ILogger<AppExceptionFilterAttribute> logger)
+    {
+        _logger = logger;
+    }
+
     public override void OnException(ExceptionContext context)
     {
         Type type = context.Exception.GetType();
@@ -25,6 +32,7 @@ public class AppExceptionFilterAttribute : ExceptionFilterAttribute
         else
         {
             HandleUnknownException(context);
+            _logger.LogError("Exception occured: {@Exception}", context.Exception);
         }
 
         context.ExceptionHandled = true;
