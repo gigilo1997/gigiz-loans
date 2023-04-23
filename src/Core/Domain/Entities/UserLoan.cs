@@ -28,7 +28,7 @@ public class UserLoan
         Currency currency,
         LoanPeriod period)
     {
-        return new UserLoan
+        var loan = new UserLoan
         {
             UserId = userId,
             Type = type,
@@ -37,6 +37,11 @@ public class UserLoan
             LoanPeriod = period,
             Status = LoanStatus.Sent
         };
+
+        // We are processing here since Admin needs to process loan, and we can not do any extra operations on not processed loans
+        loan.Process();
+
+        return loan;
     }
 
     public VoidResult Edit(

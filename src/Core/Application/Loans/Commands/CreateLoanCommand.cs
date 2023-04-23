@@ -14,9 +14,9 @@ public record CreateLoanCommand(
     Currency Currency,
     int DurationDays,
     int DurationMonths,
-    int DurationYears) : ICommand<bool>;
+    int DurationYears) : ICommand<Guid>;
 
-public class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand, bool>
+public class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand, Guid>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IRepository<UserLoan> _userLoanRepository;
@@ -29,7 +29,7 @@ public class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand, bool>
         _userLoanRepository = userLoanRepository;
     }
 
-    public async Task<ValueResult<bool>> Handle(
+    public async Task<ValueResult<Guid>> Handle(
         CreateLoanCommand request,
         CancellationToken cancellationToken)
     {
@@ -44,6 +44,6 @@ public class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand, bool>
 
         await _userLoanRepository.AddAsync(loan, true, cancellationToken);
 
-        return true;
+        return loan.Id;
     }
 }

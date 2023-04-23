@@ -14,9 +14,9 @@ public record EditLoanCommand(
     Currency Currency,
     int DurationDays,
     int DurationMonths,
-    int DurationYears) : ICommand<bool>;
+    int DurationYears) : ICommand<Guid>;
 
-public class EditLoanCommandHandler : ICommandHandler<EditLoanCommand, bool>
+public class EditLoanCommandHandler : ICommandHandler<EditLoanCommand, Guid>
 {
     private readonly IRepository<UserLoan> _loanRepository;
 
@@ -25,7 +25,7 @@ public class EditLoanCommandHandler : ICommandHandler<EditLoanCommand, bool>
         _loanRepository = loanRepository;
     }
 
-    public async Task<ValueResult<bool>> Handle(
+    public async Task<ValueResult<Guid>> Handle(
         EditLoanCommand request,
         CancellationToken cancellationToken)
     {
@@ -48,6 +48,6 @@ public class EditLoanCommandHandler : ICommandHandler<EditLoanCommand, bool>
 
         await _loanRepository.UpdateAsync(loan, true, cancellationToken);
 
-        return true;
+        return loan.Id;
     }
 }

@@ -42,6 +42,14 @@ internal class Repository<T> : IRepository<T>
             await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task DeleteAsync(T entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    {
+        Table.Remove(entity);
+
+        if (autoSave)
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<PaginatedList<TResult>> GetPaginatedAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, int pageIndex, int pageSize)
     {
         var query = Table.Where(predicate);
