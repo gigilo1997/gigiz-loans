@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Host.ObjectResultExecutors;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -13,6 +14,10 @@ var configuration = builder.Configuration;
 services.AddControllers(options =>
 {
     options.Filters.Add<AppExceptionFilterAttribute>();
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 services.AddEndpointsApiExplorer();

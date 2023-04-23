@@ -38,7 +38,7 @@ public class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand, bool>
             request.Type,
             request.Amount,
             request.Currency,
-            new LoanPeriod(request.DurationDays, request.DurationMonths, request.DurationYears));
+            new LoanPeriod(request.DurationYears, request.DurationMonths, request.DurationDays));
 
         await _userLoanRepository.AddAsync(loan, true, cancellationToken);
 
