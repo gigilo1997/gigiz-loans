@@ -25,7 +25,9 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, b
         _userManager = userManager;
     }
 
-    public async Task<ValueResult<bool>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<ValueResult<bool>> Handle(
+        RegisterUserCommand request,
+        CancellationToken cancellationToken)
     {
         var user = AppUser.Create(
             request.UserName,

@@ -21,6 +21,11 @@ internal class Repository<T> : IRepository<T>
 
     private DbSet<T> Table => _context.Set<T>();
 
+    public async Task<T?> FindByIdAsync(object id)
+    {
+        return await Table.FindAsync(id);
+    }
+
     public async Task AddAsync(T entity, bool autoSave = false, CancellationToken cancellationToken = default)
     {
         Table.Add(entity);

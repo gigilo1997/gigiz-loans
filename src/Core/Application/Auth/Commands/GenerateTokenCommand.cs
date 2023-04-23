@@ -16,7 +16,9 @@ public class GenerateTokenCommandHandler : ICommandHandler<GenerateTokenCommand,
         _authService = authService;
     }
 
-    public async Task<ValueResult<TokenDto>> Handle(GenerateTokenCommand request, CancellationToken cancellationToken)
+    public async Task<ValueResult<TokenDto>> Handle(
+        GenerateTokenCommand request,
+        CancellationToken cancellationToken)
     {
         var result = await _authService.GenerateTokenAsync(request.UserName, request.Password);
 

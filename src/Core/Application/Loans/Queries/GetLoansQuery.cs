@@ -20,7 +20,9 @@ public class GetLoansQueryHandler : ICommandHandler<GetLoansQuery, PaginatedList
         _loanRepository = loanRepository;
     }
 
-    public async Task<ValueResult<PaginatedList<LoanDto>>> Handle(GetLoansQuery request, CancellationToken cancellationToken)
+    public async Task<ValueResult<PaginatedList<LoanDto>>> Handle(
+        GetLoansQuery request,
+        CancellationToken cancellationToken)
     {
         var result = await _loanRepository.GetPaginatedAsync(
             e => !request.UserId.HasValue || e.UserId == request.UserId,

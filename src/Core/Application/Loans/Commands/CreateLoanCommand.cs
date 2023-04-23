@@ -29,7 +29,9 @@ public class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand, bool>
         _userLoanRepository = userLoanRepository;
     }
 
-    public async Task<ValueResult<bool>> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
+    public async Task<ValueResult<bool>> Handle(
+        CreateLoanCommand request,
+        CancellationToken cancellationToken)
     {
         var currentUserId = _currentUser.GetUserId()!.Value;
 

@@ -16,7 +16,9 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand, T
         _authService = authService;
     }
 
-    public async Task<ValueResult<TokenDto>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<ValueResult<TokenDto>> Handle(
+        RefreshTokenCommand request,
+        CancellationToken cancellationToken)
     {
         var result = await _authService.RefreshTokenAsync(request.Token, request.RefreshToken);
 
