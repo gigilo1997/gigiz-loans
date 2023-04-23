@@ -18,12 +18,12 @@ public class AuthController : BaseApiController
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(GenerateToken))]
-    public async Task<TokenDto> GenerateToken([FromBody] GenerateTokenCommand request) =>
+    public async Task<TokenDto> GenerateToken([FromForm] GenerateTokenCommand request) =>
         await Sender.Send(request);
 
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(RefreshToken))]
-    public async Task<TokenDto> RefreshToken([FromBody] RefreshTokenCommand request) =>
+    public async Task<TokenDto> RefreshToken([FromForm] RefreshTokenCommand request) =>
         await Sender.Send(request);
 }

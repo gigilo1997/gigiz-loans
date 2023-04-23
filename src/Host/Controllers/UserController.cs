@@ -9,5 +9,5 @@ public class UserController : BaseApiController
     [HttpPost]
     [AllowAnonymous]
     [Route(nameof(RegisterUser))]
-    public async Task RegisterUser([FromBody] RegisterUserCommand request) => await Sender.Send(request);
+    public async Task<bool> RegisterUser([FromForm] RegisterUserCommand request) => await Sender.Send(request);
 }

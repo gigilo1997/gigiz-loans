@@ -10,7 +10,7 @@ public class LoanController : BaseApiController
 {
     [HttpPost]
     [Route(nameof(CreateLoan))]
-    public async Task CreateLoan([FromBody] CreateLoanCommand command) =>
+    public async Task<bool> CreateLoan([FromForm] CreateLoanCommand command) =>
         await Sender.Send(command);
 
     [HttpGet]

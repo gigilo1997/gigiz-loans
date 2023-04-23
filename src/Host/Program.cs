@@ -1,7 +1,10 @@
 using Application;
 using Host.Filters;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Host.ObjectResultExecutors;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -17,6 +20,9 @@ services.AddSwaggerGen();
 
 services.AddInfrastructure(configuration);
 services.AddApplication(configuration);
+
+services.AddSingleton<ObjectResultExecutor>();
+services.AddSingleton<IActionResultExecutor<ObjectResult>, EnvelopedObjectResultExecutor>();
 
 builder.Logging.ClearProviders();
 
@@ -36,6 +42,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
+
+app.UseCors(options => options
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+);
 
 app.UseInfrastructure();
 

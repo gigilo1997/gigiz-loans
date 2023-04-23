@@ -14,9 +14,9 @@ public record RegisterUserCommand(
     string LastName,
     string PersonalNumber,
     DateTime DateOfBirth)
-    : ICommand;
+    : ICommand<bool>;
 
-public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
+public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, bool>
 {
     private readonly IUserManager _userManager;
 
@@ -25,7 +25,7 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
         _userManager = userManager;
     }
 
-    public async Task<VoidResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<ValueResult<bool>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = AppUser.Create(
             request.UserName,
@@ -34,6 +34,10 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
             request.PersonalNumber,
             request.DateOfBirth);
 
-        return await _userManager.CreateWithPasswordAsync(user, request.Password);
+        var result = await _userManager.CreateWithPasswordAsync(user, request.Password);
+
+        return result.IsSuccess
+            ? true
+            : Failure.Create(result.ErrorMessages);
     }
 }

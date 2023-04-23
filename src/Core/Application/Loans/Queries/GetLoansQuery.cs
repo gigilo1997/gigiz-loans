@@ -8,8 +8,8 @@ namespace Application.Loans.Queries;
 
 public record GetLoansQuery(
     Guid? UserId,
-    int PageIndex,
-    int PageSize) : ICommand<PaginatedList<LoanDto>>;
+    int Page,
+    int Limit) : ICommand<PaginatedList<LoanDto>>;
 
 public class GetLoansQueryHandler : ICommandHandler<GetLoansQuery, PaginatedList<LoanDto>>
 {
@@ -25,8 +25,8 @@ public class GetLoansQueryHandler : ICommandHandler<GetLoansQuery, PaginatedList
         var result = await _loanRepository.GetPaginatedAsync(
             e => !request.UserId.HasValue || e.UserId == request.UserId,
             m => new LoanDto(m.Id, m.Type, m.Amount, m.Currency, m.LoanPeriod.Years, m.LoanPeriod.Months, m.LoanPeriod.Days, m.Status),
-            request.PageIndex,
-            request.PageSize);
+            request.Page,
+            request.Limit);
 
         return result;
     }
