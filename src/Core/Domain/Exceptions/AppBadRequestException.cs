@@ -1,9 +1,7 @@
 ﻿namespace Domain.Exceptions;
 
-public class AppBadRequestException : Exception
+public class AppBadRequestException : AppException
 {
-    public Dictionary<string, string[]> Errors { get; } = new Dictionary<string, string[]>();
-
     public AppBadRequestException(params string[] messages)
         : base(string.Join(',', messages))
     {

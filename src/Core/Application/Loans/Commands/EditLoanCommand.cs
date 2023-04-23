@@ -1,6 +1,8 @@
 ﻿using Application.Common.Abstractions;
+using Domain.Auth;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using Domain.ValueObjects;
 using Shared.Common;
@@ -18,10 +20,14 @@ public record EditLoanCommand(
 
 public class EditLoanCommandHandler : ICommandHandler<EditLoanCommand, Guid>
 {
+    private readonly ICurrentUser _currentUser;
     private readonly IRepository<UserLoan> _loanRepository;
 
-    public EditLoanCommandHandler(IRepository<UserLoan> loanRepository)
+    public EditLoanCommandHandler(
+        ICurrentUser currentUser,
+        IRepository<UserLoan> loanRepository)
     {
+        _currentUser = currentUser;
         _loanRepository = loanRepository;
     }
 
@@ -33,6 +39,9 @@ public class EditLoanCommandHandler : ICommandHandler<EditLoanCommand, Guid>
 
         if (loan is null)
             return Failure.Create("Loan does not exist!");
+
+        if (loan.UserId != _currentUser.GetUserId())
+            throw new AppForbiddenException("You are not allowed to edit this loan");
 
         var result = loan.Edit(
             request.Type,

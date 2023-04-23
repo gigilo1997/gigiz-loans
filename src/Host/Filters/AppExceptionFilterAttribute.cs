@@ -25,6 +25,10 @@ public class AppExceptionFilterAttribute : ExceptionFilterAttribute
         {
             HandleBadRequestException(context);
         }
+        else if (type == typeof(AppForbiddenException))
+        {
+            HandleForbiddenException(context);
+        }
         else if (!context.ModelState.IsValid)
         {
             HandleInvalidModelStateException(context);
@@ -60,6 +64,22 @@ public class AppExceptionFilterAttribute : ExceptionFilterAttribute
         };
 
         context.Result = new BadRequestObjectResult(details);
+    }
+
+    private void HandleForbiddenException(ExceptionContext context)
+    {
+        var exception = context.Exception as AppForbiddenException;
+
+        var details = new ProblemDetails
+        {
+            Status = StatusCodes.Status403Forbidden,
+            Title = exception!.Message,
+        };
+
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = StatusCodes.Status403Forbidden
+        };
     }
 
     private void HandleInvalidModelStateException(ExceptionContext context)

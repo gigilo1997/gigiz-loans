@@ -1,11 +1,7 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿namespace Domain.Exceptions;
 
-namespace Domain.Exceptions;
-
-public class AppValidationException : Exception
+public class AppValidationException : AppException
 {
-    public Dictionary<string, string[]> Errors { get; } = new Dictionary<string, string[]>();
-
     public AppValidationException()
         : base("One or more validation failures have occurred.")
     {
