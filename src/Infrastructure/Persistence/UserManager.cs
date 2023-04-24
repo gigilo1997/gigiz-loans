@@ -50,6 +50,9 @@ internal class UserManager : IUserManager
 
     public async Task<VoidResult> AddToRoleAsync(AppUser user, string role)
     {
+        if (await _userManager.IsInRoleAsync(user, role))
+            return VoidResult.Success();
+
         var result = await _userManager.AddToRoleAsync(user, role);
 
         return result.Succeeded

@@ -1,0 +1,391 @@
+{
+	"info": {
+		"_postman_id": "e157a6f8-19b1-4144-920c-35af88e34566",
+		"name": "Gigiz Loans",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9053877"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userName",
+									"value": "gigiz",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Test123",
+									"type": "text"
+								},
+								{
+									"key": "repeatPassword",
+									"value": "Test123",
+									"type": "text"
+								},
+								{
+									"key": "firstName",
+									"value": "Gigi",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Zurabashvili",
+									"type": "text"
+								},
+								{
+									"key": "personalNumber",
+									"value": "01010202552",
+									"type": "text"
+								},
+								{
+									"key": "dateOfBirth",
+									"value": "1990-05-12",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/User/RegisterUser",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"User",
+								"RegisterUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Generate Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userName",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Admin123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/Auth/GenerateToken",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Auth",
+								"GenerateToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkwNGI3MDA5LTBiZDgtNDc2OC1iN2E3LTA4ZGI0NDFjYjdiYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJnaWdpeiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkdpZ2kiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiWnVyYWJhc2h2aWxpIiwiZXhwIjoxNjgyMjczMDUwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDAwIn0.BsNrT338-M-0LUjYnU0VygR6Okz_cVZoexmYnzxEeP4",
+									"type": "text"
+								},
+								{
+									"key": "refreshToken",
+									"value": "NiHdOT+DoPetBjNxGynukSbbfl3VXAKtXKUr+MmIrYU=",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/Auth/RefreshToken",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Auth",
+								"RefreshToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loan",
+			"item": [
+				{
+					"name": "Create Loan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "40",
+									"type": "text"
+								},
+								{
+									"key": "currency",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "durationDays",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "durationMonths",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "durationYears",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/Loan/CreateLoan",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Loan",
+								"CreateLoan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Loan",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "currency",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "durationDays",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "durationMonths",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "durationYears",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "5b7e8b84-f896-403d-91be-08db44692046",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/Loan/EditLoan",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Loan",
+								"EditLoan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Loan",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/Loan/AcceptLoan/eb918168-8b8a-4923-7b71-08db4413dc4d",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Loan",
+								"AcceptLoan",
+								"eb918168-8b8a-4923-7b71-08db4413dc4d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Decline Loan",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/Loan/DeclineLoan/eb918168-8b8a-4923-7b71-08db4413dc4d",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Loan",
+								"DeclineLoan",
+								"eb918168-8b8a-4923-7b71-08db4413dc4d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Loan",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/Loan/DeleteLoan/eb918168-8b8a-4923-7b71-08db4413dc4d",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Loan",
+								"DeleteLoan",
+								"eb918168-8b8a-4923-7b71-08db4413dc4d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Loans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/Loan/GetLoans?Page=1&Limit=10",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"Loan",
+								"GetLoans"
+							],
+							"query": [
+								{
+									"key": "Page",
+									"value": "1"
+								},
+								{
+									"key": "Limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImM2MzhhYzA4LTI5MGMtNDY0Ny04NmQzLTA4ZGI0NDY4ZTQ3MSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJnaWdpeiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkdpZ2kiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiWnVyYWJhc2h2aWxpIiwiZXhwIjoxNjgyMzA1ODMxLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDAwIn0.cG4feiM4Y2Y93MAA3l_niqzazNdsGu2_u8iQQ5TJIUk",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "https://localhost:7000",
+			"type": "string"
+		}
+	]
+}
