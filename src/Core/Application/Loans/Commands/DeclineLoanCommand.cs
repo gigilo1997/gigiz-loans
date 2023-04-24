@@ -25,10 +25,11 @@ public class DeclineLoanCommandHandler : ICommandHandler<DeclineLoanCommand, Gui
 
         var result = loan.Decline();
 
+        if (!result.IsSuccess)
+            return Failure.Create(result.ErrorMessages);
+
         await _loanRepository.UpdateAsync(loan, true, cancellationToken);
 
-        return result.IsSuccess
-            ? loan.Id
-            : Failure.Create(result.ErrorMessages);
+        return loan.Id;
     }
 }

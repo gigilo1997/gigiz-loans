@@ -96,7 +96,7 @@ public class UserLoan
 
     private VoidResult UpdateEndDate()
     {
-        if (LoanStartDate.HasValue)
+        if (!LoanStartDate.HasValue)
             return VoidResult.Failure("Loan start date is not yet set");
 
         LoanEndDate = LoanStartDate!.Value

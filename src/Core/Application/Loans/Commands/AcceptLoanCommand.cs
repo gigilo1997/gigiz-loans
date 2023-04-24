@@ -27,10 +27,11 @@ public class AcceptLoanCommandHandler : ICommandHandler<AcceptLoanCommand, Guid>
 
         var result = loan.Accept();
 
+        if (!result.IsSuccess)
+            return Failure.Create(result.ErrorMessages);
+
         await _loanRepository.UpdateAsync(loan, true, cancellationToken);
 
-        return result.IsSuccess
-            ? loan.Id
-            : Failure.Create(result.ErrorMessages);
+        return loan.Id;
     }
 }
